@@ -9,8 +9,10 @@ app = FastAPI(title="Telecom Churn Predictor API")
 
 # 2. Load the model ONCE when the app starts, not on every single request
 # (Make sure you moved your model.joblib file into the models/ folder!)
-model = joblib.load("models/model.joblib")
-
+# Create a GPS path to find the model automatically
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model_path = os.path.join(base_dir, "models", "model.joblib")
+model = joblib.load(model_path)
 # 3. Read the business threshold from the environment (defaults to 30% if not set)
 # We use a lower threshold because missing a churner costs more than offering a discount.
 CHURN_THRESHOLD = float(os.getenv("CHURN_THRESHOLD", "0.30"))
